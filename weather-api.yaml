@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-microservice
+  labels:
+    service: weather-forecast-service
+spec:
+  selector:
+    module: weather-api
+  ports:
+   - port: 8080
+      targetPort: 8080  
+  type: LoadBalancer
+
+  ---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: weather-service
+  labels:
+    deployment: weather-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        module: weather-api
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: weather-forecast
+        
+          image: dockermariusz/kata-project-new
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GOOGLE_API_KEY
+              value: AIzaSyBwUkyy2KIffkcARCyofTvqMPLHfgiPhxY
+            - name: OWM_API_KEY
+              value: 6b2489edea34b2f7edf585ef8b0fc9d9
