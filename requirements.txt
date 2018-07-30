@@ -1,0 +1,6 @@
+bottle
+pyowm
+gunicorn
+selenium
+castro
+ddt
